@@ -83,6 +83,7 @@
         };
 
         this.callback = function() { };
+				this.updateFormInputs_cb = function() { };
 
         //some state information
         this.isShowing = false;
@@ -102,7 +103,7 @@
             options.template = '<div class="daterangepicker dropdown-menu">' +
                 '<div class="calendar left">' +
                     '<div class="daterangepicker_input">' +
-                      '<input class="input-mini" type="text" name="daterangepicker_start" value="" />' +
+                      '<input class="input-mini" type="text" name="daterangepicker_start" value="" readonly/>' +
                       '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
                       '<div class="calendar-time">' +
                         '<div></div>' +
@@ -113,7 +114,7 @@
                 '</div>' +
                 '<div class="calendar right">' +
                     '<div class="daterangepicker_input">' +
-                      '<input class="input-mini" type="text" name="daterangepicker_end" value="" />' +
+                      '<input class="input-mini" type="text" name="daterangepicker_end" value="" readonly/>' +
                       '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
                       '<div class="calendar-time">' +
                         '<div></div>' +
@@ -136,6 +137,10 @@
         //
         // handle all the possible options overriding defaults
         //
+	  
+	  	if (typeof options.updateFormInputs_cb === 'function') {
+        	this.updateFormInputs_cb = options.updateFormInputs_cb;
+        }
 
         if (typeof options.locale === 'object') {
 
@@ -994,6 +999,7 @@
                 this.container.find('button.applyBtn').attr('disabled', 'disabled');
             }
 
+		  	this.updateFormInputs_cb();
         },
 
         move: function() {
@@ -1291,16 +1297,16 @@
                 this.setEndDate(this.startDate.clone());
             } else {
                 if (this.timePicker) {
-                    var hour = parseInt(this.container.find('.right .hourselect').val(), 10);
+                    var hour = parseInt(this.container.find('.right .hourselect').val(), 10) || 0;
                     if (!this.timePicker24Hour) {
-                        var ampm = this.container.find('.right .ampmselect').val();
+                        var ampm = this.container.find('.right .ampmselect').val() || 'PM';
                         if (ampm === 'PM' && hour < 12)
                             hour += 12;
                         if (ampm === 'AM' && hour === 12)
                             hour = 0;
                     }
-                    var minute = parseInt(this.container.find('.right .minuteselect').val(), 10);
-                    var second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : 0;
+                    var minute = parseInt(this.container.find('.right .minuteselect').val(), 10) || 0;
+                    var second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) || 0 : 0;
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.setEndDate(date.clone());

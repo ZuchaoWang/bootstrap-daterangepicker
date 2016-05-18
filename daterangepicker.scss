@@ -538,3 +538,19 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     }
   }
 }
+
+.daterangepicker td.active.start-date,
+.daterangepicker td.active.start-date:hover,
+.daterangepicker td.active.start-date.end-date,
+.daterangepicker td.active.start-date.end-date:hover {
+	background-color: #357ebd;
+}
+
+.daterangepicker td.active.end-date,
+.daterangepicker td.active.end-date:hover {
+	background-color: #aaa;
+}
+
+.daterangepicker .daterangepicker_input input[readonly] {
+	background-color: #eee;
+}
