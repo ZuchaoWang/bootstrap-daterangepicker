@@ -83,7 +83,7 @@
         };
 
         this.callback = function() { };
-				this.updateFormInputs_cb = function() { };
+				this.doAfterUpdate = function() { };
 
         //some state information
         this.isShowing = false;
@@ -138,8 +138,8 @@
         // handle all the possible options overriding defaults
         //
 	  
-	  	if (typeof options.updateFormInputs_cb === 'function') {
-        	this.updateFormInputs_cb = options.updateFormInputs_cb;
+	  	if (typeof options.doAfterUpdate === 'function') {
+        	this.doAfterUpdate = options.doAfterUpdate;
         }
 
         if (typeof options.locale === 'object') {
@@ -533,6 +533,7 @@
             this.updateMonthsInView();
             this.updateCalendars();
             this.updateFormInputs();
+						this.doAfterUpdate();
         },
 
         updateMonthsInView: function() {
@@ -998,8 +999,6 @@
             } else {
                 this.container.find('button.applyBtn').attr('disabled', 'disabled');
             }
-
-		  	this.updateFormInputs_cb();
         },
 
         move: function() {
@@ -1452,6 +1451,7 @@
             this.renderTimePicker('left');
             this.renderTimePicker('right');
 
+						this.doAfterUpdate();
         },
 
         formInputsChanged: function(e) {
